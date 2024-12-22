@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:enabled="true"
+        android:icon="@drawable/ic_bookmark_foreground"
+        />
+    <item
+        android:id="@+id/nav_comare"
+        android:title="Compare"
+        android:icon="@drawable/ic_bookmark_foreground"/>
+    <item
+        android:id="@+id/nav_ranking"
+        android:title="Leaderboard"
+        android:icon="@drawable/ic_bookmark_foreground"/>
+    <item
+        android:id="@+id/nav_settings"
+        android:title="About"
+        android:icon="@drawable/ic_bookmark_foreground"/>
+</menu>

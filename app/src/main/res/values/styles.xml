@@ -1,0 +1,29 @@
+<resources>
+
+    <style name="Widget.Theme.AndroidTutorial.MyView" parent="">
+        <item name="android:background">@color/grey1</item>
+    </style>
+
+    <style name="checkbox_color" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/red1</item> <!-- for uncheck state -->
+        <item name="android:textColorSecondary">@color/border2</item> <!-- for check state -->
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/sf_pro_500</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- Customize color of navigation drawer icon and back arrow -->
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+</resources>

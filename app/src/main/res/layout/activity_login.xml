@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:id="@+id/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="androidnative.lovelyfamily.android.pages.login.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp">
+        <ImageView
+            android:layout_width="144dp"
+            android:layout_height="144dp"
+            android:src="@drawable/umby_logo"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="SIMART"
+            android:textSize="24sp"
+            android:fontFamily="@font/sf_pro_600"
+            android:textColor="@color/primary"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Sistem Informasi Aset Rumah Tangga"
+            android:textSize="14sp"
+            android:fontFamily="@font/sf_pro_400"
+            android:textColor="@color/textPrimary"
+            android:textAlignment="center"/>
+
+        <androidnative.lovelyfamily.android.shared.component.CustomTextEdit
+            android:id="@+id/username_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Username"
+            app:hint="Enter information"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:layout_marginTop="16dp"
+            />
+
+        <androidnative.lovelyfamily.android.shared.component.CustomTextEdit
+            android:id="@+id/password_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Password"
+            app:hint="****"
+            app:obscure="true"
+            android:maxLines="1"
+            android:imeOptions="actionDone"
+            android:layout_marginTop="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white"
+            android:text="Login Local"
+            android:fontFamily="@font/sf_pro_500"
+            android:textSize="14sp"
+            app:cornerRadius="8dp"
+            android:paddingVertical="8dp"
+            android:textAllCaps="false"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login_sso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/primary"
+            android:text="Login Local"
+            android:fontFamily="@font/sf_pro_500"
+            android:textSize="14sp"
+            app:cornerRadius="8dp"
+            android:paddingVertical="8dp"
+            android:textAllCaps="false"
+            app:strokeColor="@color/textPrimary"
+            app:strokeWidth="1dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:id="@+id/checkboxLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <CheckBox
+                        android:id="@+id/checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:button="@drawable/custom_checkbox"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ingatkan Saya"
+                        android:fontFamily="@font/sf_pro_500"
+                        android:textSize="14sp"
+                        android:layout_marginStart="7dp"
+                        android:textColor="@color/textPrimary"/>
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lupa Password?"
+                android:fontFamily="@font/sf_pro_500"
+                android:textSize="14sp"
+                android:textColor="@color/blue1"/>
+        </LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="4dp"
+            android:layout_marginTop="24dp"
+            app:cardElevation="0dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Untuk alasan keamanan, silahkan logout  dan tutup browser Anda setelah selesai menggunakan layanan yang memerlukan otentikasi!  "
+                android:fontFamily="@font/sf_pro_400"
+                android:textSize="11sp"
+                android:textColor="@color/textPrimary"
+                android:background="@drawable/warning_login_background"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="20dp"/>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>
