@@ -1,50 +1,26 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/inputLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:hint="Testing"
+    app:boxCornerRadiusBottomEnd="6dp"
+    app:boxCornerRadiusBottomStart="6dp"
+    app:boxCornerRadiusTopEnd="6dp"
+    app:boxCornerRadiusTopStart="6dp">
 
-    <TextView
-        android:id="@+id/title"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/text_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/sf_pro_400"
-        android:textSize="12sp"
-        android:textColor="@color/grey3"
-        android:text="Testing"/>
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:fontFamily="@font/mulish_400"
+        android:textSize="14sp"
+        android:inputType="text"
+        android:gravity="start|center"
+        android:textCursorDrawable="@null"
+        android:textColor="@color/grey1"
+        />
 
-    <LinearLayout
-        android:id="@+id/inputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:orientation="vertical"
-        android:background="@drawable/input_border">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="12dp"
-            android:fontFamily="@font/sf_pro_300"
-            android:textSize="14sp"
-            android:inputType="text"
-            android:gravity="top|start"
-            android:textCursorDrawable="@null"
-            android:textColor="@color/grey1"
-            android:background="@color/transparent"
-            android:textColorHint="@color/grey3"
-            />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:fontFamily="@font/sf_pro_400"
-        android:textSize="12sp"
-        android:textColor="@color/red3"
-        android:text=""
-        android:visibility="gone"/>
-</LinearLayout>
+</com.google.android.material.textfield.TextInputLayout>

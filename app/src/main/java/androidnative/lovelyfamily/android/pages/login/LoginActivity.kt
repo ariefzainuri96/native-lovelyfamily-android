@@ -1,7 +1,14 @@
 package androidnative.lovelyfamily.android.pages.login
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ClickableSpan
+import android.text.style.StyleSpan
+import android.view.View
+import android.widget.TextView
 import androidnative.lovelyfamily.android.R
 import androidnative.lovelyfamily.android.databinding.ActivityLoginBinding
 import androidnative.lovelyfamily.android.pages.dashboard.DashboardActivity
@@ -29,13 +36,46 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         eventHandler()
+
+        setupView()
+    }
+
+    private fun setupView() {
+        val fullText = "Don't have an account? Sign up"
+        val spannableString = SpannableString(fullText)
+
+        val signUpText = "Sign up"
+        val startIndex = fullText.indexOf(signUpText)
+        val endIndex = startIndex + signUpText.length
+
+        spannableString.setSpan(
+            StyleSpan(Typeface.BOLD), // Set style (bold + italic)
+            startIndex,
+            endIndex,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        // Set click listener for "Sign up"
+        spannableString.setSpan(object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                println("Sign up clicked")
+            }
+
+            override fun updateDrawState(ds: android.text.TextPaint) {
+                // Remove underline and keep the custom color
+                ds.isUnderlineText = false
+                ds.color = ContextCompat.getColor(this@LoginActivity, R.color.black)
+            }
+        }, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        // Enable click on TextView
+        binding.dontHaveAccount.setText(spannableString, TextView.BufferType.SPANNABLE)
+        binding.dontHaveAccount.movementMethod = android.text.method.LinkMovementMethod.getInstance()
     }
 
     private fun eventHandler() {
         collectLatestLifeCycleFlow(viewModel.loginForm) {
-            binding.loginButton.isEnabled = it.enableLoginButton()
-            binding.loginButton.setBackgroundColor(ContextCompat.getColor(this, if (it.enableLoginButton()) R.color.primary else R.color.grey3))
-            binding.checkbox.isChecked = it.checkbox
+            // so something
         }
 
         collectLatestLifeCycleFlow(viewModel.loginState) {
@@ -58,7 +98,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-
         binding.passwordInput.apply {
             getTextInput().doOnTextChanged { text, _, _, _ ->
                 viewModel.updateLoginForm { copy(password = text.toString()) }
@@ -70,14 +109,6 @@ class LoginActivity : AppCompatActivity() {
                     )
                 )
             }
-        }
-
-        binding.loginButton.setOnClickListener {
-            viewModel.login()
-        }
-
-        binding.checkboxLayout.setOnClickListener {
-            viewModel.updateLoginForm { copy(checkbox = !(viewModel.loginForm.value.checkbox)) }
         }
     }
 
