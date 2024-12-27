@@ -1,5 +1,6 @@
 package androidnative.lovelyfamily.android.pages.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidnative.lovelyfamily.android.R
@@ -7,8 +8,10 @@ import androidnative.lovelyfamily.android.databinding.ActivityDashboardBinding
 import androidnative.lovelyfamily.android.features.dashboard.adapter.MenuAdapter
 import androidnative.lovelyfamily.android.features.dashboard.adapter.NewsViewPagerAdapter
 import androidnative.lovelyfamily.android.features.dashboard.model.MenuModel
+import androidnative.lovelyfamily.android.pages.BaseToolbarActivity
+import androidnative.lovelyfamily.android.pages.login.LoginActivity
+import androidnative.lovelyfamily.android.pages.new_activity.NewActivity
 import androidnative.lovelyfamily.android.utils.RequestState
-import androidnative.lovelyfamily.android.utils.Utils
 import androidnative.lovelyfamily.android.utils.cameraPermissionRequest
 import androidnative.lovelyfamily.android.utils.collectLatestLifeCycleFlow
 import androidnative.lovelyfamily.android.utils.dpToPx
@@ -16,31 +19,29 @@ import androidnative.lovelyfamily.android.utils.isPermissionGranted
 import androidnative.lovelyfamily.android.utils.openPermissionSetting
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DashboardActivity : AppCompatActivity() {
+class DashboardActivity : BaseToolbarActivity() {
     private lateinit var binding: ActivityDashboardBinding
     private val viewModel: DashboardViewModel by viewModels()
 
     private val cameraPermission = android.Manifest.permission.CAMERA
 
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (isGranted) {
-            // do something
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                // do something
+            }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         binding = ActivityDashboardBinding.inflate(layoutInflater)
 
-        setContentView(binding.root)
+        super.onCreate(savedInstanceState)
 
         observeData()
 
@@ -48,6 +49,13 @@ class DashboardActivity : AppCompatActivity() {
 
         setMenuRecyclerView()
     }
+
+    override fun setPaddingStatusBar() = implementPaddingStatusBar(binding.toolbarLayout, left =
+    dpToPx(16f), right = dpToPx(16f), top = dpToPx(16f))
+
+    override fun setContentView() = implementContentView(binding.root)
+
+    override fun setToolbar() {}
 
     private fun requestCameraAndStartScanner() {
         if (isPermissionGranted(cameraPermission)) {
@@ -64,6 +72,7 @@ class DashboardActivity : AppCompatActivity() {
                     openPermissionSetting()
                 }
             }
+
             else -> {
                 requestPermissionLauncher.launch(cameraPermission)
             }
@@ -71,10 +80,13 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        Utils.Companion.setStatusBarShown(this, binding.root)
+        binding.profileLayout.setOnClickListener {
+            viewModel.logout()
+        }
 
         binding.scanQRLayout.setOnClickListener {
-            requestCameraAndStartScanner()
+//            requestCameraAndStartScanner()
+            startActivity(Intent(this, NewActivity::class.java))
         }
 
         binding.newsError.apply {
@@ -89,11 +101,22 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun observeData() {
         collectLatestLifeCycleFlow(viewModel.newsState) { state ->
-            binding.newsLoading.visibility = if (state == RequestState.LOADING) View.VISIBLE else View.GONE
-            binding.newsError.visibility = if (state == RequestState.ERROR) View.VISIBLE else View.GONE
+            binding.newsLoading.visibility =
+                if (state == RequestState.LOADING) View.VISIBLE else View.GONE
+            binding.newsError.visibility =
+                if (state == RequestState.ERROR) View.VISIBLE else View.GONE
 
             if (state == RequestState.SUCCESS) {
                 setupNewsViewPager()
+            }
+        }
+
+        collectLatestLifeCycleFlow(viewModel.logoutState) { state ->
+            if (state == RequestState.SUCCESS) {
+                val i = Intent(this, LoginActivity::class.java)
+                // set the new task and clear flags
+                i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(i)
             }
         }
     }
@@ -110,8 +133,8 @@ class DashboardActivity : AppCompatActivity() {
                     0 -> println("Manajemen Inventaris")
                     1 -> println("Manajemen Barang Pakai Habis")
                     2 -> println("Manajemen Aset")
-                    3-> println("Task Approval")
-                }   
+                    3 -> println("Task Approval")
+                }
             }
         })
 

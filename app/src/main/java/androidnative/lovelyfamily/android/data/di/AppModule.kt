@@ -37,7 +37,7 @@ object AppModule {
         // 9000 -> running port
         // update network_security_config.xml with local ip
         return Retrofit.Builder()
-            .baseUrl("http://192.168.165.161:9000/")
+            .baseUrl("https://expressjs-lovely-family.vercel.app/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

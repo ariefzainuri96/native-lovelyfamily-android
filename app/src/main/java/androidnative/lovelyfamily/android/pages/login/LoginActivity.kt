@@ -8,10 +8,13 @@ import android.text.SpannableString
 import android.text.style.ClickableSpan
 import android.text.style.StyleSpan
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import android.widget.Toast
 import androidnative.lovelyfamily.android.R
 import androidnative.lovelyfamily.android.databinding.ActivityLoginBinding
 import androidnative.lovelyfamily.android.pages.dashboard.DashboardActivity
+import androidnative.lovelyfamily.android.utils.DialogLoadingUtils
 import androidnative.lovelyfamily.android.utils.RequestState
 import androidnative.lovelyfamily.android.utils.Utils
 import androidnative.lovelyfamily.android.utils.ValidationType
@@ -19,6 +22,7 @@ import androidnative.lovelyfamily.android.utils.collectLatestLifeCycleFlow
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.core.widget.doOnTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,9 +42,37 @@ class LoginActivity : AppCompatActivity() {
         eventHandler()
 
         setupView()
+
+        observeData()
+    }
+
+    private fun observeData() {
+        collectLatestLifeCycleFlow(viewModel.errorLoginForm) { error ->
+            binding.emailInput.setError(error.firstOrNull { it.key == "email" }?.error)
+            binding.passwordInput.setError(error.firstOrNull { it.key == "password" }?.error)
+        }
+
+        collectLatestLifeCycleFlow(viewModel.loginState) {
+            if (it == RequestState.LOADING) {
+                DialogLoadingUtils.showLoadingDialog(this, "Loading...")
+            } else {
+                DialogLoadingUtils.dismissLoadingDialog()
+            }
+
+            if (it == RequestState.SUCCESS) {
+                startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
+                finish()
+            }
+
+            if (it == RequestState.ERROR) {
+                Toast.makeText(this@LoginActivity, "Login gagal", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setupView() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         val fullText = "Don't have an account? Sign up"
         val spannableString = SpannableString(fullText)
 
@@ -74,20 +106,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun eventHandler() {
-        collectLatestLifeCycleFlow(viewModel.loginForm) {
-            // so something
-        }
-
-        collectLatestLifeCycleFlow(viewModel.loginState) {
-            if (it == RequestState.SUCCESS) {
-                startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
-                finish()
-            }
-        }
-
-        binding.usernameInput.apply {
+        binding.emailInput.apply {
             getTextInput().doOnTextChanged { text, _, _, _ ->
-                viewModel.updateLoginForm { copy(username = text.toString()) }
+                viewModel.updateLoginForm { copy(email = text.toString()) }
 
                 setError(
                     Utils.Companion.commonInputValidator(
@@ -109,6 +130,13 @@ class LoginActivity : AppCompatActivity() {
                     )
                 )
             }
+
+            setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE && viewModel.isLoginEnable()) {
+                    viewModel.login()
+                }
+                false
+            })
         }
     }
 

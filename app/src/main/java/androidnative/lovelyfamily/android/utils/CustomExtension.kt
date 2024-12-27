@@ -112,3 +112,19 @@ fun Context.findActivity(): Activity {
     }
     throw IllegalStateException("Permissions should be called in the context of an Activity")
 }
+
+fun Context.pxToDp(px: Int): Float {
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        px.toFloat() / resources.displayMetrics.density,
+        resources.displayMetrics
+    )
+}
+
+fun Context.dpToPx(dp: Float): Int {
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        dp,
+        resources.displayMetrics
+    ).toInt()
+}

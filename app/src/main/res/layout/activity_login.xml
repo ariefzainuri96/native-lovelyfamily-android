@@ -22,7 +22,7 @@
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            android:layout_marginTop="34dp"
+            android:layout_marginTop="54dp"
             />
 
         <TextView
@@ -36,11 +36,11 @@
             android:textAlignment="center"/>
 
         <androidnative.lovelyfamily.android.shared.component.CustomTextEdit
-            android:id="@+id/username_input"
+            android:id="@+id/emailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="Username"
-            app:hint="Enter information"
+            app:title="Email"
+            app:hint="Enter email"
             android:inputType="textEmailAddress"
             android:imeOptions="actionNext"
             android:layout_marginTop="40dp"

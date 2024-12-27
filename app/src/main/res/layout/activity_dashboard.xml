@@ -20,11 +20,11 @@
         android:orientation="vertical">
         <!-- header -->
         <LinearLayout
+            android:id="@+id/toolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="30dp"
             android:paddingHorizontal="16dp">
             <TextView
                 android:layout_width="0dp"
@@ -48,6 +48,7 @@
                     android:layout_gravity="center"/>
             </androidx.cardview.widget.CardView>
             <LinearLayout
+                android:id="@+id/profileLayout"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:gravity="center"

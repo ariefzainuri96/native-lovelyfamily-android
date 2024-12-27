@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidnative.lovelyfamily.android.R
 import androidnative.lovelyfamily.android.databinding.CustomTextEditBinding
 import androidx.core.content.ContextCompat
@@ -105,6 +106,10 @@ class CustomTextEdit @JvmOverloads constructor(
 
     fun setTextInput(text: String) {
         binding.textInput.setText(text)
+    }
+
+    fun setOnEditorActionListener(listener: TextView.OnEditorActionListener) {
+        binding.textInput.setOnEditorActionListener(listener)
     }
 
     fun setError(message: String?) {
